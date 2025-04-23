@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca - IA de Quebrada</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="description" content="Busque por conteúdos sobre inteligência artificial no blog IA de Quebrada.">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>IA de Quebrada</h1>
+                <p>Inteligência Artificial para Todos</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="posts/tutoriais/">Tutoriais</a></li>
+                    <li><a href="posts/noticias/">Notícias</a></li>
+                    <li><a href="posts/analises/">Análises</a></li>
+                    <li><a href="posts/conceitos/">Conceitos Básicos</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="search-header">
+        <div class="container">
+            <h2>Busca</h2>
+            <form class="search-form">
+                <input type="search" id="search-input" placeholder="Digite sua busca..." required>
+                <button type="submit" class="btn"><i class="fas fa-search"></i> Buscar</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="search-results">
+        <div class="container">
+            <h3>Resultados da busca para: <span id="search-term"></span></h3>
+            <div id="results-count"></div>
+            <div class="results-list" id="results-container">
+                <!-- Os resultados serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>IA de Quebrada</h2>
+                    <p>Inteligência Artificial para Todos</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="posts/tutoriais/">Tutoriais</a></li>
+                        <li><a href="posts/noticias/">Notícias</a></li>
+                        <li><a href="posts/analises/">Análises</a></li>
+                        <li><a href="posts/conceitos/">Conceitos Básicos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Redes Sociais</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contato</h3>
+                    <p>Email: contato@iadequebrada.com.br</p>
+                    <a href="contato.html" class="btn">Fale Conosco</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 IA de Quebrada. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Script específico para a funcionalidade de busca
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.querySelector('.search-form');
+            const searchInput = document.getElementById('search-input');
+            const searchTerm = document.getElementById('search-term');
+            const resultsCount = document.getElementById('results-count');
+            const resultsContainer = document.getElementById('results-container');
+            
+            // Dados de exemplo para simular resultados de busca
+            const samplePosts = [
+                {
+                    title: "Como começar com Inteligência Artificial",
+                    category: "Tutoriais",
+                    excerpt: "Um guia completo para quem está dando os primeiros passos no mundo da IA.",
+                    url: "posts/tutoriais/como-comecar-com-ia.html",
+                    date: "20 de abril de 2025"
+                },
+                {
+                    title: "O que é Machine Learning?",
+                    category: "Conceitos",
+                    excerpt: "Entenda os conceitos fundamentais por trás do aprendizado de máquina.",
+                    url: "posts/conceitos/o-que-e-machine-learning.html",
+                    date: "15 de abril de 2025"
+                },
+                {
+                    title: "Últimos avanços em IA generativa",
+                    category: "Notícias",
+                    excerpt: "Descubra as novidades mais recentes no campo da inteligência artificial generativa.",
+                    url: "posts/noticias/avancos-ia-generativa.html",
+                    date: "10 de abril de 2025"
+                },
+                {
+                    title: "Comparativo: Melhores ferramentas de IA para iniciantes",
+                    category: "Análises",
+                    excerpt: "Analisamos as principais ferramentas de IA disponíveis para quem está começando.",
+                    url: "posts/analises/ferramentas-ia-iniciantes.html",
+                    date: "5 de abril de 2025"
+                },
+                {
+                    title: "Ética na Inteligência Artificial",
+                    category: "Conceitos",
+                    excerpt: "Uma discussão sobre os aspectos éticos do desenvolvimento e uso da IA.",
+                    url: "posts/conceitos/etica-na-ia.html",
+                    date: "1 de abril de 2025"
+                }
+            ];
+            
+            // Função para realizar a busca
+            function performSearch(query) {
+                // Em um site real, isso seria uma chamada a uma API ou backend
+                // Aqui estamos simulando com dados locais
+                query = query.toLowerCase();
+                
+                const results = samplePosts.filter(post => {
+                    return post.title.toLowerCase().includes(query) || 
+                           post.excerpt.toLowerCase().includes(query) ||
+                           post.category.toLowerCase().includes(query);
+                });
+                
+                return results;
+            }
+            
+            // Função para exibir os resultados
+            function displayResults(results, query) {
+                searchTerm.textContent = query;
+                
+                if (results.length === 0) {
+                    resultsCount.textContent = "Nenhum resultado encontrado.";
+                    resultsContainer.innerHTML = `
+                        <div class="no-results">
+                            <p>Sua busca não retornou resultados. Tente com outros termos.</p>
+                            <ul>
+                                <li>Verifique a ortografia das palavras</li>
+                                <li>Use termos mais gerais</li>
+                                <li>Tente buscar por categorias: Tutoriais, Notícias, Análises, Conceitos</li>
+                            </ul>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                resultsCount.textContent = `${results.length} resultado(s) encontrado(s).`;
+                
+                let html = '';
+                results.forEach(post => {
+                    html += `
+                        <article class="result-item">
+                            <span class="category">${post.category}</span>
+                            <h4><a href="${post.url}">${post.title}</a></h4>
+                            <p>${post.excerpt}</p>
+                            <div class="result-meta">
+                                <span class="date"><i class="far fa-calendar-alt"></i> ${post.date}</span>
+                                <a href="${post.url}" class="read-more">Ler mais</a>
+                            </div>
+                        </article>
+                    `;
+                });
+                
+                resultsContainer.innerHTML = html;
+            }
+            
+            // Processar o formulário de busca
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        const results = performSearch(query);
+                        displayResults(results, query);
+                    }
+                });
+            }
+            
+            // Verificar se há um parâmetro de busca na URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryParam = urlParams.get('q');
+            
+            if (queryParam) {
+                searchInput.value = queryParam;
+                const results = performSearch(queryParam);
+                displayResults(results, queryParam);
+            }
+        });
+    </script>
+</body>
+</html>
